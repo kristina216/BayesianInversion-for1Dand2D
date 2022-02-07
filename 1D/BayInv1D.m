@@ -1,15 +1,19 @@
 % Bayesian Inversion
 % Author: Kristina Backes
-% 5-Schicht-System
+% 5-layer system
 % 2022
+
+% With this script you can invert a 5-layer system with fixed thickness.
+% dcfwf.m is required.
+
 close all; clear; clc;
 
 % rng(1, "twister");
 
-%% Set up Model 
+%% Set up model 
 tic
 
-% Profilauslage
+% profil
 AB = [1, 1.3, 1.8, 2.4, 3.2, 4.2, 5.6, 7.5, ...
         10, 13, 18, 24, 32, 42, 56, 75, ...
         100, 130, 180 240 320 420 560 750];
