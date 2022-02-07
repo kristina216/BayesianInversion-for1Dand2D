@@ -3,7 +3,7 @@
 % 5-layer system
 % 2022
 
-% With this script you can invert a 5-layer system with fixed thickness.
+% With this script you can invert a 5-layer system with fixed layer thickness.
 % dcfwf.m is required.
 
 close all; clear; clc;
