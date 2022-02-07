@@ -302,34 +302,6 @@ for i = 1:5
      ax.YAxis.Exponent = 0;
 end
 
-%%
-% figure(3)
-% for i = 1:5
-%     subplot(2,3,i)
-%     set(gca, 'Fontsize', 16)
-%     hold on
-%     histogram(prio_hist, 'Normalization', 'probability', 'BinWidth', 20, ...
-%         'facecolor', [0.4660 0.6740 0.1880]);
-%     histogram(target(i,:), 'Normalization', 'probability', ...
-%              'BinWidth', 20, 'facecolor', 'k');
-% %     if i == 4 || i == 5
-% %         histogram(target(i,:), 'Normalization', 'probability', ...
-% %             'BinWidth', 20, 'facecolor', 'k');
-% %     else
-% %         histogram(target(i,:), 'Normalization', 'probability', ...
-% %             'BinWidth', 20, 'facecolor', 'k');
-% %     end
-%     set(gca, 'XScale', 'log')
-%     title("Schicht " +i+ " (" + Het.rho(i) + "\Omegam)")
-% %     xlabel('Resistivity[\Omegam]')
-%     xlabel('\rho [\Omegam]')
-% %     xlabel('Spez. el. Widerstand [\Omegam]')
-%     legend("\mu_0: Ln \mu: 5.5, \sigma: 0.9", "\pi: \mu: " +...
-%         round(modell_stat2(i,1),1) + ", \sigma: " + ...
-%         round(modell_stat2(i,2),1) , 'location', 'northeast' ,'Fontsize',12)
-%     grid on
-% end
-
 %% Plot grey zones 
 % Rho: 100 50 50 1500 2000
 % q: [0.025 0.25 0.50 0.75 0.975]
