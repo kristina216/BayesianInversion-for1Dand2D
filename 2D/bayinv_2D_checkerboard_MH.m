@@ -80,7 +80,7 @@ dc_info.survey.data_type = 'rhoa';
 % 
 % param_fine = (cm_fine == unique(cm_fine).') * domain_val_vec;
 
-%%  Set up mesh, edge length 3m breit, anomaly 6m
+%%  Set up mesh, edge length 3m, anomaly 6m
 
 w = 3;
 blockx1 = (-14:w:14).';
