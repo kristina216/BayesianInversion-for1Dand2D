@@ -13,38 +13,38 @@ close all; clear; clc;
 %% Set up model 
 tic
 
-% profil
+% Profil set up
 AB = [1, 1.3, 1.8, 2.4, 3.2, 4.2, 5.6, 7.5, ...
         10, 13, 18, 24, 32, 42, 56, 75, ...
         100, 130, 180 240 320 420 560 750];
 
-% set up model
+% Set up model
 Hom.rho = [500 500 500 500 500];
 Hom.thk = [1 5 5 10];
 Het.rho = [100 50 50 1500 2000];
 Het.thk = [1 5 5 10];
 len_split = length(Hom.rho);
 
-% add random noise
+% Add random noise
 Het.rhoa = dcfwdf(Het.rho, Het.thk, AB);
 
-% noise type: 
-% 1: Additiver Noise, 2: Multipilakter noise, 3: Ueberlagerung
+% Noise type: 
+% 1: additive noise, 2: relative noise, 3: superposition
 noise_type = 2;
 
 switch noise_type
     case 1
-        % Additiver Noise
+        % Additive noise
         noise = 3;
         Het.rhoa_n = Het.rhoa + noise .* randn(size(Het.rhoa));
         sigma = noise; % Standardabweichung
     case 2
-        % Multipilakter noise
+        % Relative noise
         noise = 0.03;
         Het.rhoa_n = Het.rhoa .* (1 + noise * randn(size(Het.rhoa)) );
         sigma = noise; % Varianz
     case 3
-        % Ueberlagerung multiplikativ und additiv
+        % Superposition relativ and additive
         noise = 0.03;
         noise_g = 0.003;
         noise_geo = noise_g * AB + zeros(size(AB));
@@ -53,17 +53,18 @@ switch noise_type
         sigma = noise; % Varianz
 end
 
+% number of observations
 nn = length(Het.rhoa_n);
 
 %% Define MCMC
 
-% number iterations
+% Number iterations
 n = 39000; 
 
-% burn = burnin amount
+% Burn 
 burn = 3000;
 
-% standard deviation of normal proposal density or step size
+% Standard deviation of normal proposal density or step size
 s = 0.01; 
 
 % Random walk
@@ -73,6 +74,7 @@ result.layer = zeros(n-1, len_split);
 result.stat = zeros(n-1, 2);
 
 % Auxiliary variable
+proposed_log_rho = zeros(1, len_split);
 rhoa_bestmodell = zeros(nn, 20);
 modell = zeros(len_split, 20);
 mittelA = 0;
@@ -154,7 +156,7 @@ for i = 2:n
     % Acceptance query
     if u <= min(A, 1)
         % Random walk
-        target(:,i) = exp(proposed_log_rho); % accept proposal as new
+        target(:,i) = exp(proposed_log_rho); 
         
         % Results
         result.layer(i-1,:) = exp(proposed_log_rho);
@@ -162,11 +164,11 @@ for i = 2:n
         result.stat(i-1,2) = post_dens;
         
         % Auxiliary variable
-        mittelA = mittelA + 1; % akzeptiert neuen Move
+        mittelA = mittelA + 1; 
         hlp_time = 1;
     else
         % Random walk
-        target(:,i) = exp(current_log_rho); % set old to be the new
+        target(:,i) = exp(current_log_rho); 
         
         % Auxiliary variable
         hlp_time = 0;
@@ -179,7 +181,7 @@ akwrs = (mittelA/n) * 100;
 %% Priori-distribution 
 
 for i = 1:n
-    prio_hist(i) = lognrnd(5.5, 0.9); % mean = 244,7; sigma = 2,46
+    prio_hist(i) = lognrnd(5.5, 0.9); 
 end
 
 %% Estimator 1 - MAP
@@ -315,7 +317,7 @@ end
 d = [1 5 5 10 9];
 d_len = sum(d);
 
-% Maximal expansion Plot
+% Maximal expansion of plot
 max_hlp = max(max(target(:)), 2100); 
 
 figure(4)
