@@ -142,7 +142,7 @@ solver_type = util.pick(1, 'backslash', 'mumps', 'pcg_amg');
 % distance ground surface to first bloc
 di = 1; % 
 
-%edge length
+% edge length
 w = 1;
 blockx1 = (0.5:w:19).';
 w3 = 2;
@@ -237,10 +237,10 @@ burn = 10000;
 
 % standard deviation of normal proposal density or step size
 % of conductivity value
-s = 0.1;
+s = 0.05;
 
-% Varianz
-sigma = 0.04; 
+% Variance
+sigma = 0.1; 
 
 % Auxiliary variable 
 mittelA = 0;
@@ -300,7 +300,7 @@ for i = 2:n
     
     % Forward operation candidate
     fwd_propr = app_dc.fwd.solve(sol, 1./exp(param_prop), ...
-        solver_type, dc_info); % rhoa für proposed_x
+        solver_type, dc_info); 
     
     % Prior candidate
     prior_prop = normpdf(proposed_log_rho, 4.8, 0.9);
@@ -319,7 +319,7 @@ for i = 2:n
     
         % Forward operation previous value i-1
         fwd_currr = app_dc.fwd.solve(sol, 1./exp(param_curr), ...
-            solver_type, dc_info); % rhoa für current_x
+            solver_type, dc_info);
         
         % Prior previous value i-1
         prior_curr = normpdf(current_log_rho, 4.8, 0.9);
@@ -440,7 +440,7 @@ end
 %% Priori-distribution 
 
 for i = 1:n
-    prio_hist(i) = lognrnd(4.8, 0.9); % mean = 244,7; sigma = 2,46
+    prio_hist(i) = lognrnd(4.8, 0.9); 
 end
 
 %% Comparison Priori & Posteriori

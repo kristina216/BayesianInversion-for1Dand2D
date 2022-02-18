@@ -331,6 +331,7 @@ for i = 2:n
     % Generate uniformly distributed random variable
     u = rand(1,1);
     
+    % Acceptance query
     if u <= min(A, 1)
         % Random walk
         target_leitf(:,i) = 1./exp(proposed_log_rho); %accept proposal as new

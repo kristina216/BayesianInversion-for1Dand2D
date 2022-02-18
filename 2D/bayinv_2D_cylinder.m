@@ -20,8 +20,7 @@ solver_type = util.pick(2, 'backslash', 'mumps', 'pcg_amg');
 % Set electrode positions at top of halfspace.
 topo_pos = [(-100:100).', 0*(-100:100).'];
 
-% domain_val = 1 / 1000;
-domain_val = 1 / 800; % Leitfähigkeit eingeben, damit rhoa raus kommt
+domain_val = 1 / 800; 
 
 % Define electrode positions.
 ixd_ele_in_topo = topo_pos(:,1) > -25 & topo_pos(:,1) < 25;
@@ -43,7 +42,6 @@ dc_info.survey.data_type = 'rhoa';
 param = (cm == unique(cm).') * domain_val;
 
 %% include anomaly
-% Anomalietiefe abhängig von Messanordnung
 midpoints = mesh.get_cell_centroids;
 
 kreis = anomaly_triangle(4, -10, 8, midpoints); % x, y, r, midpoints
@@ -197,6 +195,7 @@ for i = 2:n
                 (fwd_propr_log.^2 * noise^2 + noise_geo'.^2));
     end
     
+    % If previous step was accepted
     if hlp_time == 1  
         % Prior previous value i-1
         prior_curr = normpdf(current_log_rho, 5.5, 0.9);
@@ -523,7 +522,8 @@ grid on
 
 param_result = ones(size(param));
 param_result(:) = model_stat2(1,1);
-kreis_result = anomaly_triangle(geo_stat(1,1), geo_stat(2,1), geo_stat(3,1), midpoints);
+kreis_result = anomaly_triangle(geo_stat(1,1), geo_stat(2,1), ...
+    geo_stat(3,1), midpoints);
 param_result(kreis_result) = model_stat2(2,1);
 
 hlp_result = app_dc.fwd.solve(sol, 1./param_result, solver_type, dc_info);
@@ -532,7 +532,8 @@ err_rhoa = abs(hlp_result - rhoa);
 % MAP
 param_result_map = ones(size(param));
 param_result_map(:) = result.layer(1,1);
-kreis_result_map = anomaly_triangle(result.geo(1,1), result.geo(1,2), result.geo(1,3), midpoints);
+kreis_result_map = anomaly_triangle(result.geo(1,1), result.geo(1,2), ...
+    result.geo(1,3), midpoints);
 param_result_map(kreis_result_map) = result.layer(1,2);
 
 hlp_result_map = app_dc.fwd.solve(sol, 1./param_result_map, solver_type, dc_info);

@@ -237,10 +237,10 @@ burn = 10000;
 
 % standard deviation of normal proposal density or step size
 % of conductivity value
-s = 0.1;
+s = 0.05;
 
-% Varianz
-sigma = 0.04; 
+% Variance
+sigma = 0.1; 
 
 % Auxiliary variable 
 mittelA = 0;
@@ -429,7 +429,7 @@ end
 %% Priori-distribution 
 
 for i = 1:n
-    prio_hist(i) = lognrnd(4.8, 0.9); % mean = 244,7; sigma = 2,46
+    prio_hist(i) = lognrnd(4.8, 0.9); 
 end
 
 %% Comparison Priori & Posteriori
