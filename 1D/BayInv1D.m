@@ -37,20 +37,20 @@ switch noise_type
         % Additive noise
         noise = 3;
         Het.rhoa_n = Het.rhoa + noise .* randn(size(Het.rhoa));
-        sigma = noise; % Standardabweichung
+        sigma = noise; 
     case 2
         % Relative noise
         noise = 0.03;
         Het.rhoa_n = Het.rhoa .* (1 + noise * randn(size(Het.rhoa)) );
-        sigma = noise; % Varianz
+        sigma = noise; 
     case 3
-        % Superposition relativ and additive
+        % uperposition relativ and additive
         noise = 0.03;
         noise_g = 0.003;
         noise_geo = noise_g * AB + zeros(size(AB));
         Het.rhoa_nn = Het.rhoa .* (1 + noise * randn(size(Het.rhoa)) );
         Het.rhoa_n = Het.rhoa_nn + noise_geo' .* randn(size(Het.rhoa));
-        sigma = noise; % Varianz
+        sigma = noise; 
 end
 
 % number of observations
@@ -91,7 +91,6 @@ for i = 2:n
     % Assignement of previous position in MCMC chain
     current_log_rho = log(target(:,i-1));
     
-    % Disturb every modell parameter independently 
     % Generating new candidate for random walk
     for k = 1:len_split 
         proposed_log_rho(k) = current_log_rho(k) + s*randn(1,1);
@@ -111,11 +110,11 @@ for i = 2:n
             Log_Like_prop = - (1/(2*sigma^2)) * ...
                 sum(((Het.rhoa_n)/1 - (fwd_prop)/1).^2);
         case 2
-            % Multiplikative Log-Like
+            % Relative Log-Like
             Log_Like_prop = - sum(log(fwd_prop)) - (1/(2*sigma^2)) * ...
                 sum((Het.rhoa_n - fwd_prop).^2 ./ fwd_prop.^2);
         case 3
-            % Ueberlagerung
+            % Superposition
             Log_Like_prop = - sum(log(fwd_prop * noise + noise_geo')) - ...
                 0.5 * sum((Het.rhoa_n - fwd_prop).^2 ./ ...
                 (fwd_prop.^2 * noise^2 + noise_geo'.^2));
@@ -133,11 +132,11 @@ for i = 2:n
                 Log_Like_curr = - (1/(2*sigma^2)) * ...
                     sum(((Het.rhoa_n)/1 - (fwd_curr)/1).^2);
             case 2
-                % Multiplikative Log-Like
+                % Relative Log-Like
                 Log_Like_curr = - sum(log(fwd_curr)) - (1/(2*sigma^2)) * ...
                     sum((Het.rhoa_n - fwd_curr).^2 ./ fwd_curr.^2); 
             case 3
-                % Ueberlagerung
+                % Superposition
                 Log_Like_curr = - sum(log(fwd_curr * noise + noise_geo')) - ...
                     0.5 * sum((Het.rhoa_n - fwd_curr).^2 ./ ...
                     (fwd_curr.^2 * noise^2 + noise_geo'.^2));

@@ -38,12 +38,12 @@ switch noise_mode
         % Additive noise
         noise = 3;
         Het.rhoa_n = Het.rhoa + noise .* randn(size(Het.rhoa));
-        sigma = noise; % Standardabweichung
+        sigma = noise; 
     case 2
         % Relative noise
         noise = 0.03;
         Het.rhoa_n = Het.rhoa .* (1 + noise * randn(size(Het.rhoa)) );
-        sigma = noise; % Varianz
+        sigma = noise; 
     case 3
         % Superposition relativ and additive
         noise = 0.03;
@@ -51,7 +51,7 @@ switch noise_mode
         noise_geo = noise_g * AB + zeros(size(AB));
         Het.rhoa_nn = Het.rhoa .* (1 + noise * randn(size(Het.rhoa)) );
         Het.rhoa_n = Het.rhoa_nn + noise_geo' .* randn(size(Het.rhoa));
-        sigma = noise; % Varianz
+        sigma = noise; 
 end
 
 % Number of observations

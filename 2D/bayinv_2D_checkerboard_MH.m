@@ -146,12 +146,12 @@ switch noise_type
         % Additive noise
         noise = 3;
         rhoa_n = rhoa + noise .* randn(size(rhoa));
-        sigma = noise; % Standardabweichung
+        sigma = noise; 
     case 2
         % Relative noise
         noise = 0.03;
         rhoa_n = rhoa .* (1 + noise * randn(size(rhoa)) );
-        sigma = noise; % Varianz
+        sigma = noise; 
     case 3
         % Superposition relativ and additive
         noise = 0.03;
@@ -159,7 +159,7 @@ switch noise_type
         noise_geo = noise_g * AB + zeros(size(AB));
         rhoa_nn = rhoa .* (1 + noise * randn(size(rhoa)) );
         rhoa_n = rhoa_nn + noise_geo' .* randn(size(rhoa));
-        sigma = noise; % Varianz
+        sigma = noise; 
 end
 
 rhoa_n_log = log(rhoa_n);
